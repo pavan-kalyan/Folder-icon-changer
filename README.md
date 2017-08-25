@@ -5,3 +5,4 @@ modules being used
 -BeautifulSoup
 -requests
 -urlib
+-os
