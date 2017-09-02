@@ -3,14 +3,17 @@ import requests
 import urllib
 import bs4 
 import os
+import time
+from PIL import Image
 from os.path import basename
 
 print(os.getcwd())
 
 urlBase="https://fanart.tv"
 url1="https://fanart.tv/tv-fanart/"
+#loops through all folder names in current directory and downloads image.
 for fileName in os.listdir(os.getcwd()):
-	#print(fileName)
+	
 	if os.path.isdir(fileName):
 
 		url1=urlBase+"/tv-fanart/"+fileName[0]
@@ -28,5 +31,10 @@ for fileName in os.listdir(os.getcwd()):
 				link=title.get('src')
 				print(urlBase+link)
 				break
-		urllib.request.urlretrieve(urlBase+link,os.path.join(os.path.join(os.getcwd(),fileName),fileName) )
+		urllib.request.urlretrieve(urlBase+link,os.path.join(os.path.join(os.getcwd(),fileName),fileName))
+		#im = Image.open(os.path.join(os.path.join(os.getcwd(),fileName),fileName))
+		#im.save(os.path.join(os.path.join(os.getcwd(),fileName),fileName)+'.png')
+
+		print("gvfs-set-attribute -t string \""+ os.path.join(os.getcwd(),fileName) +"\" metadata::custom-icon file:/\""+os.path.join(os.path.join(os.getcwd(),fileName),fileName)+"\"")
+		os.system("gvfs-set-attribute -t string \""+ os.path.join(os.getcwd(),fileName) +"\" metadata::custom-icon file://\""+os.path.join(os.path.join(os.getcwd(),fileName),fileName)+"\"")
 
