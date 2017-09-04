@@ -1,4 +1,4 @@
-#! python3
+#! python
 import requests
 import urllib
 import bs4 
@@ -19,7 +19,7 @@ for fileName in os.listdir(os.getcwd()):
 		soup=bs4.BeautifulSoup(r.text,"lxml")
 		for link in soup.find_all(text =fileName, href=True):
 			url2=urlBase+link['href']
-			#print(url2)
+			print(url2)
 			break
 		r=requests.get(url2)
 		soup=bs4.BeautifulSoup(r.content,"lxml")
@@ -27,8 +27,15 @@ for fileName in os.listdir(os.getcwd()):
 		for title in images:
 			if title.get('title')==fileName+" tv poster image":
 				link=title.get('src')
-				#print(urlBase+link)
-				break
+				print(urlBase+link)
+				if link:
+					break
+				else:
+					continue
+
+		
+		if(not isinstance(link, str)):
+			continue
 		urllib.request.urlretrieve(urlBase+link,os.path.join(os.path.join(os.getcwd(),fileName),fileName))
 		
 		os.system("gvfs-set-attribute -t string \""+ os.path.join(os.getcwd(),fileName) +"\" metadata::custom-icon file://\""+os.path.join(os.path.join(os.getcwd(),fileName),fileName)+"\"")
