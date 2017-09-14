@@ -1,4 +1,4 @@
-#! python
+#!/usr/bin/env python3
 import requests
 import urllib
 import bs4 
@@ -11,7 +11,7 @@ url1="https://fanart.tv/tv-fanart/"
 for fileName in os.listdir(os.getcwd()):
 
     if os.path.isdir(fileName):
-        
+        link=5 #this line helps prevent extra folders from being changed
         url1=urlBase+"/tv-fanart/"+fileName[0]
         r=requests.get(url1)
         soup=bs4.BeautifulSoup(r.text,"lxml")
@@ -44,3 +44,4 @@ for fileName in os.listdir(os.getcwd()):
         urllib.request.urlretrieve(urlBase+link,os.path.join(os.path.join(os.getcwd(),fileName),fileName))
         #opens up system shell to change icons
         os.system("gvfs-set-attribute -t string \""+ os.path.join(os.getcwd(),fileName) +"\" metadata::custom-icon file://\""+os.path.join(os.path.join(os.getcwd(),fileName),fileName)+"\"")
+        
